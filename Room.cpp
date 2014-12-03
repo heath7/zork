@@ -1,0 +1,4 @@
+Room::(const String &name, String status, String type, String description, Border[] borders, Container[] containers, Item[] items, Creature[] creatures, Trigger[] triggers) 
+{
+
+}
