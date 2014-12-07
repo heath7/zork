@@ -62,7 +62,20 @@ void Room::addBorder(string dir, string borderRoom)
 
 void Room::addItem(Item* newItem)
 {
-  // items.push_back(newItem);
+   items.push_back(newItem);
+}
+
+Item* Room::getItem(string itemName)
+{
+  int i = 0;
+  for(i = 0; i < items.size(); i++)
+    {
+      
+      if(items[i]->getName().compare(itemName) == 0)
+	{
+	  return items[i];
+	}
+    }
 }
 /*
 main()

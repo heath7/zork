@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+
 #include "Item.h"
 //#include "Creature.h"
 //#include "Trigger.h"
@@ -40,6 +41,7 @@ typedef struct _border
 
   void addBorder(string newDirection, string newName);
   void addItem(Item* newItem);
+  Item* getItem(string itemName);
   // void removeItem(string itemName);
   // Room* const getNextRoom(const string &dirName);
 
