@@ -1,11 +1,11 @@
 #include "Item.h"
 
-Item::Item()
+Item::Item(string name, string description, string status, string writing)
 {
-  name = "default";
-  description = "default";
-  status = "default";
-  writing = "default";
+  this->name = name;
+  this->description = description;
+  this->status = status;
+  this->writing = writing;
 }
 
 string Item::getName()
@@ -32,22 +32,14 @@ void Item::setName(string newName)
   name = newName;
 }
 
-void Item::setDescription(string newDescription)
+void Item::setDescription(string newName)
 {
   description = newDescription;
 }
 
-void Item::setStatus(string newStatus)
-{
-  status = newStatus;
-}
-
-void Item::setWriting(string newWriting )
-{
-  writing = newWriting;
-}
 bool Item::isOn()
 {
   //
 } 
+
 
