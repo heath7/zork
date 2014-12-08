@@ -4,7 +4,7 @@
 #include <vector>
 #include <iostream>
 #include "Item.h"
-#include "Attack.h"
+//#include "Attack.h"
 #include "Triggers.h"
 
 using namespace std;
@@ -13,14 +13,14 @@ using namespace std;
 
 class Creature {
 private:
-	vector<string> vulnerability;
+	string vulnerability;
 	vector<Triggers> triggers;
 
 	string condition;
 	string name;
   	string description;
   	string status;
-  	Attack attack;
+  	//Attack attack;
   	string condition_satisfy;
 
 public:
@@ -36,11 +36,11 @@ public:
   	void setStatus(string newStatus);
 
 	void setVulnerability(string newVulnerability);
-	vector<string> getVulnerability();
-
+	string getVulnerability();
+	/*
 	void setAttack(Attack newAttack);
 	Attack getAttack();
-
+	*/
 	vector<Triggers> getTriggers();
 	void setTriggers(Triggers);
 

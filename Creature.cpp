@@ -42,13 +42,13 @@ string Creature::getStatus()
  
  void Creature::setVulnerability(string newVulnerability)
  {
-	(this->vulnerability).push_back(newVulnerability);
+   vulnerability = newVulnerability;
  }
 
-vector<string> Creature::getVulnerability(){
+string Creature::getVulnerability(){
 return vulnerability;
 }
-
+/*
 void Creature::setAttack(Attack newAttack)
 {
 	this->attack = newAttack;
@@ -58,7 +58,7 @@ Attack Creature::getAttack()
 {
 return attack;
 }
-
+*/
 vector<Triggers> Creature::getTriggers(){
   return triggers;
 }

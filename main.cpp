@@ -9,6 +9,7 @@
 #include "Item.h"
 #include "Container.h"
 
+
 using std::string;
 
 using namespace std;
@@ -26,6 +27,7 @@ string borderName;
 vector<Room*> rooms;
 vector<Item*> items;
 vector<Container*> containers;
+vector<Creature*> creatures;
 
 
 //vector<Creature*> cretures;
@@ -116,6 +118,12 @@ int main(){
 		{
 
 		  //create new creature
+			Creature* newCreature = new Creature();
+			tempValue2 = node2->value();
+			newCreature->setName(tempValue2);
+			creatures.push_back(newCreature);
+		
+			
 		  //add creature to creature array
 		  //add creature to room
 		}
@@ -313,7 +321,49 @@ int main(){
 	
       if(tempName == "creature")
 	{
+		xml_node<> *tempNode2 = node1->first_node();
+	  
+	  tempValue2 = tempNode2->value();
+	  cout << tempValue2 << "!!!!!!!"  <<endl;
+
 	  //search creature vector for creature with same name
+
+		int i = 0;
+		for(i= 0 ; i < creatures.size(); i ++)
+		{
+			if(creatures[i]->getName() == tempValue2)
+			{
+				for(xml_node<> *node2 = node1->first_node();
+		      node2; node2 = node2->next_sibling())
+		    	{
+		     	 tempName2 = node2->name();
+		     	 tempValue2 = node2->value();
+
+		     	 if(tempName2 == "vulnerability")
+		     	 {
+		     	 	cout << tempName2 << endl;
+		     	 	creatures[i]->setVulnerability(tempValue2);
+		     	 	cout << creatures[i]->getVulnerability() << endl;
+		     	 }
+		     	 if(tempName2 == "attack")
+		     	 {
+		     	 	//creatures[i]->setAttack(Attack());
+		     	 	//decide how to implement attack
+		     	 	//typedef struct condition?
+		     	 	//Creature doesnt compile on its own with Attack
+
+		     	 }
+		     	 if(tempValue2 == "trigger")
+		     	 {	
+		     	 	//triggers also have condition
+		     	 }
+
+
+		  		}
+
+			}
+
+		}
 	  //add vulnerabilty
 	  //add attack
 	    //condition
