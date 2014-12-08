@@ -1,68 +1,94 @@
 #include "Container.h"
+#include <iostream>
+#include <vector>
+#include <string>
 
-Container::Container(string name, string decription,string status)
+using namespace std;
+
+Container::Container()
 {
-  this->name = name;
-  this -> description = description;
-  this ->status = status;
+ 
 }
 
 string Container::getName()
-{
+  {
     return name;
   }
+
+  void Container::setName(string newName)
+  {
+    name = newName;
+  }
   
-string Inventory::getDescription() 
+
+string Container::getDescription() 
   {
     return description;
   }
-string Inventory::getStatus()
+
+  void Container::setDescription(string newDescription)
+  {
+    this->description = newDescription;
+  }
+
+string Container::getStatus()
   {
     return status;
   }
 
-/*
-This method returns the list of the items
- */
-string Inventory::toString() const
+  void Container::setStatus(string newStatus)
+  {
+    status = newStatus;
+  }
+
+  string Container::getSatisfyCondition()
+  {
+    return condition;
+  }
+
+void Container::setSatisfyCondition(string newCondition)
 {
-  if(items.empty())
-    {
-      return "You have no items.";
-    }
-  else
-    {
-      string ret = "You have: "; 
-    
-   list<Item>::const_iterator itr;
-   for ( itr = items.begin(); itr != items.end(); ++itr )
-     {
-       ret += "\n\ta " + itr->toString();
-     }
-   return ret;
-}
+    this->condition = newCondition;
+} 
+
+vector<Item*> Container::getItems()
+{
+  return items;
 }
 
-/*
-This method adds an item to the inventory if list not full
- */
-bool Inventory::put(const Item& item)
+Item* Container::getItem(string target)
 {
-  if ( !isFull() )
+  int i = 0;
+  for(i = 0; i < items.size(); i++ )
     {
-      items.push_back(item);
-      return true;
-    }
-  else
-    {
-      return false;
+      if(items[i]->getName() == target)
+	{
+	  return items[i];
+	}
     }
 }
 
-/*
-This method examines the list and returns the item
- */
-string Inventory::examine(const string& itemString) const throw (MissingItem)
+void Container::addItem(Item* newItem)
 {
-
+  items.push_back(newItem);
 }
+
+
+vector<Triggers> Container::getTrigger(){
+  return triggers;
+}
+
+void Container::setTrigger(Triggers newTrigger){
+  (this->triggers).push_back(newTrigger);
+}
+
+  string Container::getAccept(){
+  return accept;
+}
+
+void Container::setAccept(string newAccept){
+  accept = newAccept;
+}
+
+
+

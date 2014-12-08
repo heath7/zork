@@ -8,6 +8,26 @@ Item::Item()
   writing = "default";
 }
 
+void Item::setName(string newName)
+{
+name = newName;
+}
+
+void Item::setDescription(string newDescription)
+{
+description = newDescription;
+}
+
+void Item::setStatus(string newStatus)
+{
+status = newStatus;
+}
+
+void Item::setWriting(string newWriting )
+{
+writing = newWriting;
+}
+
 string Item::getName()
   {
     return name;
@@ -27,27 +47,29 @@ string Item::getWriting()
   return writing;
 }
 
-void Item::setName(string newName)
+string Item::getIsOn()
 {
-  name = newName;
-}
-
-void Item::setDescription(string newDescription)
-{
-  description = newDescription;
-}
-
-void Item::setStatus(string newStatus)
-{
-  status = newStatus;
-}
-
-void Item::setWriting(string newWriting )
-{
-  writing = newWriting;
-}
-bool Item::isOn()
-{
-  //
+  return on;
 } 
 
+void Item::setIsOn(string newOn)
+{
+  this->on = newOn;
+}
+
+void Item::turnOn(){
+  onFlag = 1;
+}
+
+void Item::turnOff(){
+  onFlag = 0;
+}
+
+Triggers * Item::getTriggers()
+{
+  return triggers;
+}
+
+void Item::setTriggers(Triggers* newTriggers){
+  this->triggers = newTriggers;
+}

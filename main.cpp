@@ -7,6 +7,7 @@
 #include <string>
 #include "Room.h"
 #include "Item.h"
+#include "Container.h"
 
 using std::string;
 
@@ -24,6 +25,7 @@ string borderDirection;
 string borderName;
 vector<Room*> rooms;
 vector<Item*> items;
+vector<Container*> containers;
 
 
 //vector<Creature*> cretures;
@@ -102,11 +104,17 @@ int main(){
 	      if(tempName2 == "container")
 		{
 		  //create new container
+		  Container* newContainer = new Container();
+		  containers.push_back(newContainer);
+		  tempValue2 = node2->value();
+		  containers.back()->setName(tempValue2);
+		 // rooms.back()->addContainer(newContainer);
 		  //add container to contianer array
 		  //add container to room
 		}
 	      if(tempName2 == "creature")
 		{
+
 		  //create new creature
 		  //add creature to creature array
 		  //add creature to room
@@ -135,52 +143,160 @@ int main(){
 	  //tempNode2 = tempNode2->next_sibling();
 	  
 	  tempValue2 = tempNode2->value();
-	  cout << tempValue2 << "gggggggggg"  <<endl;
-	  Item* tempItem;
+	  cout << tempValue2 << "!!!!!!!!!"  <<endl;
+	  int found = 0;
 	  int i = 0;
 	  for(i = 0; i < items.size(); i++)
 	    {
 	      if(items[i]->getName().compare(tempValue2) == 0)
 		{
-		  tempItem = items[i];
+		  found = 1;
 		  for(xml_node<> *node2 = node1->first_node();
 		      node2; node2 = node2->next_sibling())
 		    {
 		      tempName2 = node2->name();
-		      cout << tempName2 << endl;
+
 		      tempValue2 = node2->value();
-		      cout << tempValue2 << endl;
-		      if(tempValue2 == "writing")
+	
+		      if(tempName2 == "writing")
 			{
-			  tempItem->setWriting(node2->value());
-			  // cout << tempItem->getWriting() << endl;
+			  cout << tempName2 << endl;
+			  items[i]->setWriting(node2->value());
+			  cout << items[i]->getWriting() << endl;
 			}
 		      //setWriting
-		      if(tempValue2 == "setStatus")
+		      if(tempName2 == "status")
 			{
-			  tempItem->setStatus(node2->value());
+			  cout << tempName2 << endl;
+			  items[i]->setStatus(node2->value());
+			  cout << items[i]->getStatus() << endl;
 			}
 		      //setStatus
 		      /*
-		      if(tempvalue2 == "turnon")
+			if(tempvalue2 == "turnon")
 			{
-			  
+			
 			}
 		      */
 		      //set turnon
 		      //setPrint
 		      //setAction
 		    }
-		  // items[i]->setWriting();
-		  ///...
+		  
 		}
 	    }
-	  
-	
+	  if(found == 0)
+	    {
+	      Item* tempItem = new Item();
+	      items.push_back(tempItem);
+	      tempItem->setName(tempValue2);
+	      for(xml_node<> *node2 = node1->first_node();
+		  node2; node2 = node2->next_sibling())
+		{
+		  tempName2 = node2->name();
+		
+		  tempValue2 = node2->value();
+		  
+		  if(tempName2 == "writing")
+		    {
+		      cout << tempName2 << endl;
+		      items[i]->setWriting(node2->value());
+		      cout << items[i]->getWriting() << endl;
+		      // cout << tempItem->getWriting() << endl;
+		    }
+		  //setWriting
+		  if(tempName2 == "status")
+		    {
+		      cout << tempName2 << endl;
+		      items[i]->setStatus(node2->value());
+		      cout << items[i]->getStatus() << endl;
+		    }
+		  //setStatus
+		  
+		  if(tempName2 == "turnon")
+		    {
+		      
+		    }
+		  
+		  //set turnon
+		  //setPrint
+		  //setAction
+		}
+	      
+	    }
+ 
 	} 
+	
       if(tempName == "container")
 	{
 	  //search container vector for contianer with same name
+		xml_node<> *tempNode2 = node1->first_node();
+	  //tempNode2 = tempNode2->next_sibling();
+	  
+	  tempValue2 = tempNode2->value();
+	  cout << tempValue2 << "!!!!!!!"  <<endl;
+	  int found = 0;
+	  int i = 0;
+	   for(i = 0; i < containers.size(); i++)
+	    {
+	      if(containers[i]->getName().compare(tempValue2) == 0)
+		{
+		  found = 1;
+
+		  for(xml_node<> *node2 = node1->first_node();
+		      node2; node2 = node2->next_sibling())
+		    {
+		      tempName2 = node2->name();
+
+		      tempValue2 = node2->value();
+
+		      if(tempName2 == "accept")
+			{
+			  cout << tempName2 << endl;
+			  containers[i]->setAccept(node2->value());
+			  cout << containers[i]->getAccept() << endl;
+			}
+		      //setWriting
+		      if(tempName2 == "status")
+			{
+			  cout << tempName2 << endl;
+			  containers[i]->setStatus(node2->value());
+			  cout << containers[i]->getStatus() << endl;
+			}
+	          if(tempName2 == "item")
+	          {
+	          	tempValue2 = node2->value();
+	          	//cout << tempValue2 << endl;
+	          	int j = 0;
+	          	for(j = 0; j < items.size(); j++)
+					{	
+						//cout << items[j]->getName() << endl;
+
+
+						if(items[j]->getName() == tempValue2)
+						{
+							//cout << "!!!!!!!!"<< endl;
+							//cout << tempValue2 << endl;
+							containers[i]->addItem(items[j]);//////
+							cout << containers[i]->getItem(tempValue2)->getName() << endl;
+						}				
+
+					}
+	          }
+		      //setStatus
+		      
+			if(tempName2 == "turnon")
+			{
+			
+			}
+		      
+		      //set turnon
+		      //setPrint
+		      //setAction
+		    }
+		  
+		}
+	    }
 	  //setStatus
 	  //setAccept
 	  //addTrigger
@@ -190,8 +306,11 @@ int main(){
 	       //owner
 	     //print
 	     //setAction
+
+
 	     
 	}
+	
       if(tempName == "creature")
 	{
 	  //search creature vector for creature with same name
@@ -208,6 +327,7 @@ int main(){
 	       //object
 	       //status
             //print
+
 
 	}
 
