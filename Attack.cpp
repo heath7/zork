@@ -1,5 +1,5 @@
 #include "Attack.h"
-#include <iostream.h>
+#include <iostream>
 #include <string>
 using namespace std;
 
@@ -16,7 +16,7 @@ string Attack::getStatus()
     return status;
   }
 
-  string Attack::setStatus(string newStatus)
+  void Attack::setStatus(string newStatus)
   {
     status = newStatus;
   }
@@ -26,18 +26,21 @@ string Attack::getStatus()
     return object;
   }
 
-  string Attack::setObject(string newObject)
+  void Attack::setObject(string newObject)
   {
-    status = newObject;
+    object = newObject;
   }
  
 
  string Attack::getPrint()
   {
-    return object;
+    //std::cout << print << std::endl;
+    return print;
   }
 
-  string Attack::setPrint(string newPrint)
+  void Attack::setPrint(string newPrint)
   {
     print = newPrint;
+    // std::cout << print << std::endl;
+
   }

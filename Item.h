@@ -20,7 +20,6 @@ public:
 	string getDescription();
 	void setDescription(string newDescription);
 
-
 	string getStatus();
 	void setStatus(string newStatus);
 
@@ -36,12 +35,15 @@ public:
 	Triggers * getTriggers();
 	void setTriggers(Triggers*);
 
+	void setPrint(string);
+	string getPrint();
 
 private:
 	string name;
 	string description;
 	string status;
 	string writing;
+	string print;
 	string on;
 	int onFlag;
 	Triggers * triggers;

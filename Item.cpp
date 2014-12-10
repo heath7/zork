@@ -73,3 +73,13 @@ Triggers * Item::getTriggers()
 void Item::setTriggers(Triggers* newTriggers){
   this->triggers = newTriggers;
 }
+
+void Item::setPrint(string newPrint)
+{
+  print = newPrint;
+}
+
+string Item::getPrint()
+{
+  return print;
+}

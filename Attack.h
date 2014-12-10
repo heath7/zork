@@ -12,12 +12,12 @@ class Attack {
 public:
   Attack();
   string getPrint();
-  string setPrint(string newPrint);
+  void setPrint(string newPrint);
 
   string getObject();
-  string setObject(string newObject);
+  void setObject(string newObject);
 
-  string setStatus(string newStatus);
+  void setStatus(string newStatus);
   string getStatus();
   
  private:

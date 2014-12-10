@@ -8,6 +8,7 @@
 #include "Room.h"
 #include "Item.h"
 #include "Container.h"
+#include "Creature.h"
 
 
 using std::string;
@@ -17,10 +18,10 @@ using namespace rapidxml;
 string tempName;
 string tempName2;
 string tempName3;
-
+string tempName4;
 string tempValue2;
 string tempValue3;
-
+string tempValue4;
 string tempValue;
 string borderDirection;
 string borderName;
@@ -101,31 +102,25 @@ int main(){
 			  borderName = tempValue3;
 			}
 		    }
-		  //  rooms[i]->addBorder(borderDirection, borderName);
+		    rooms[i]->addBorder(borderDirection, borderName);
+		    cout << borderDirection << endl;
+		     cout << rooms[i]->getBorderName(borderDirection) << endl;
 		}
 	      if(tempName2 == "container")
 		{
-		  //create new container
-		  Container* newContainer = new Container();
+		  Container* newContainer = new Container();  //create new container
 		  containers.push_back(newContainer);
 		  tempValue2 = node2->value();
-		  containers.back()->setName(tempValue2);
-		 // rooms.back()->addContainer(newContainer);
-		  //add container to contianer array
-		  //add container to room
+		  containers.back()->setName(tempValue2);   //add container to contianer array
+		  rooms.back()->addContainer(newContainer); //add container to room
 		}
 	      if(tempName2 == "creature")
 		{
-
-		  //create new creature
-			Creature* newCreature = new Creature();
+			Creature* newCreature = new Creature(); //create new creature
 			tempValue2 = node2->value();
 			newCreature->setName(tempValue2);
-			creatures.push_back(newCreature);
-		
-			
-		  //add creature to creature array
-		  //add creature to room
+			creatures.push_back(newCreature); //add creature to creature array
+			rooms[i]->addCreature(newCreature);//add creature to room
 		}
 	      if(tempName2 == "item")
 		{
@@ -148,7 +143,6 @@ int main(){
       if(tempName == "item")
 	{
 	  xml_node<> *tempNode2 = node1->first_node();
-	  //tempNode2 = tempNode2->next_sibling();
 	  
 	  tempValue2 = tempNode2->value();
 	  cout << tempValue2 << "!!!!!!!!!"  <<endl;
@@ -166,235 +160,258 @@ int main(){
 
 		      tempValue2 = node2->value();
 	
-		      if(tempName2 == "writing")
+		      if(tempName2 == "writing")//set writing
 			{
 			  cout << tempName2 << endl;
 			  items[i]->setWriting(node2->value());
 			  cout << items[i]->getWriting() << endl;
 			}
-		      //setWriting
-		      if(tempName2 == "status")
+	
+		      if(tempName2 == "status")//set status
 			{
 			  cout << tempName2 << endl;
 			  items[i]->setStatus(node2->value());
 			  cout << items[i]->getStatus() << endl;
 			}
-		      //setStatus
-		      /*
-			if(tempvalue2 == "turnon")
-			{
-			
-			}
-		      */
-		      //set turnon
-		      //setPrint
-		      //setAction
-		    }
-		  
-		}
-	    }
-	  if(found == 0)
-	    {
-	      Item* tempItem = new Item();
-	      items.push_back(tempItem);
-	      tempItem->setName(tempValue2);
-	      for(xml_node<> *node2 = node1->first_node();
-		  node2; node2 = node2->next_sibling())
-		{
-		  tempName2 = node2->name();
-		
-		  tempValue2 = node2->value();
-		  
-		  if(tempName2 == "writing")
-		    {
-		      cout << tempName2 << endl;
-		      items[i]->setWriting(node2->value());
-		      cout << items[i]->getWriting() << endl;
-		      // cout << tempItem->getWriting() << endl;
-		    }
-		  //setWriting
-		  if(tempName2 == "status")
-		    {
-		      cout << tempName2 << endl;
-		      items[i]->setStatus(node2->value());
-		      cout << items[i]->getStatus() << endl;
-		    }
-		  //setStatus
-		  
-		  if(tempName2 == "turnon")
-		    {
 		      
+		      if(tempName2 == "turnon")
+			{
+			  for(xml_node<> *node3 = node2->first_node();
+			      node3; node3 = node3->next_sibling())
+			    {
+			      tempName3 = node3->name();
+			      tempValue3 = node3->value();
+			      if(tempName3 == "print")
+				{
+				  cout << tempName3 << endl;
+				  items[i]->setPrint(tempValue3);
+				  cout << items[i]->getPrint() << endl;
+				}
+			    }
+			}
 		    }
-		  
-		  //set turnon
-		  //setPrint
-		  //setAction
 		}
-	      
 	    }
- 
-	} 
-	
-      if(tempName == "container")
-	{
-	  //search container vector for contianer with same name
-		xml_node<> *tempNode2 = node1->first_node();
-	  //tempNode2 = tempNode2->next_sibling();
-	  
-	  tempValue2 = tempNode2->value();
-	  cout << tempValue2 << "!!!!!!!"  <<endl;
-	  int found = 0;
-	  int i = 0;
-	   for(i = 0; i < containers.size(); i++)
-	    {
-	      if(containers[i]->getName().compare(tempValue2) == 0)
+	      if(found == 0)
 		{
-		  found = 1;
+		  Item* tempItem = new Item();
+		  items.push_back(tempItem);
+		  tempItem->setName(tempValue2);
+
 
 		  for(xml_node<> *node2 = node1->first_node();
 		      node2; node2 = node2->next_sibling())
 		    {
 		      tempName2 = node2->name();
-
-		      tempValue2 = node2->value();
-
-		      if(tempName2 == "accept")
-			{
-			  cout << tempName2 << endl;
-			  containers[i]->setAccept(node2->value());
-			  cout << containers[i]->getAccept() << endl;
-			}
-		      //setWriting
-		      if(tempName2 == "status")
-			{
-			  cout << tempName2 << endl;
-			  containers[i]->setStatus(node2->value());
-			  cout << containers[i]->getStatus() << endl;
-			}
-	          if(tempName2 == "item")
-	          {
-	          	tempValue2 = node2->value();
-	          	//cout << tempValue2 << endl;
-	          	int j = 0;
-	          	for(j = 0; j < items.size(); j++)
-					{	
-						//cout << items[j]->getName() << endl;
-
-
-						if(items[j]->getName() == tempValue2)
-						{
-							//cout << "!!!!!!!!"<< endl;
-							//cout << tempValue2 << endl;
-							containers[i]->addItem(items[j]);//////
-							cout << containers[i]->getItem(tempValue2)->getName() << endl;
-						}				
-
-					}
-	          }
-		      //setStatus
 		      
-			if(tempName2 == "turnon")
+		      tempValue2 = node2->value();
+		      
+		      if(tempName2 == "writing")//set writing
 			{
-			
+			  cout << tempName2 << endl;
+			  tempItem->setWriting(node2->value());
+			  cout << tempItem->getWriting() << endl;
+			  // cout << tempItem->getWriting() << endl;
+			}
+		      if(tempName2 == "status")//set status
+			{
+			  cout << tempName2 << endl;
+			  tempItem->setStatus(node2->value());
+			  cout << tempItem->getStatus() << endl;
+			}
+		      if(tempName2 == "turnon")
+			{
+			   for(xml_node<> *node3 = node2->first_node();
+			      node3; node3 = node3->next_sibling())
+			    {
+			      tempName3 = node3->name();
+			      tempValue3 = node3->value();
+			      if(tempName3 == "print")
+				{
+				  cout << tempName3 << endl;
+				  tempItem->setPrint(tempValue3);
+				  cout << tempItem->getPrint() << endl;
+				}
+			    }
 			}
 		      
 		      //set turnon
 		      //setPrint
 		      //setAction
 		    }
-		  
 		}
-	    }
-	  //setStatus
-	  //setAccept
-	  //addTrigger
-	     //condition
+	    } 
+	
+	  if(tempName == "container")
+	    {
+	      //search container vector for container with same name
+	      xml_node<> *tempNode2 = node1->first_node();
+	      
+	      tempValue2 = tempNode2->value();
+	      cout << tempValue2 << "!!!!!!!"  <<endl;
+	      int found = 0;
+	      int i = 0;
+	      for(i = 0; i < containers.size(); i++)
+		{
+		  if(containers[i]->getName().compare(tempValue2) == 0)
+		    {
+		      found = 1;
+		      
+		      for(xml_node<> *node2 = node1->first_node();
+		      node2; node2 = node2->next_sibling())
+			{
+			  tempName2 = node2->name();
+			  
+			  tempValue2 = node2->value();
+			  
+			  if(tempName2 == "accept")
+			    {
+			      cout << tempName2 << endl;
+			      containers[i]->setAccept(node2->value());
+			      cout << containers[i]->getAccept() << endl;
+			    }
+			  if(tempName2 == "status")
+			    {
+			      cout << tempName2 << endl;
+			      containers[i]->setStatus(node2->value());
+			      cout << containers[i]->getStatus() << endl;
+			    }
+			  if(tempName2 == "item")
+			    {
+			      tempValue2 = node2->value();
+			      //cout << tempValue2 << endl;
+			      int j = 0;
+			      for(j = 0; j < items.size(); j++)
+				{	
+				  //cout << items[j]->getName() << endl;		      
+				  if(items[j]->getName() == tempValue2)
+				    {
+				      //cout << "!!!!!!!!"<< endl;
+				      //cout << tempValue2 << endl;
+				      containers[i]->addItem(items[j]);//////
+				      cout << containers[i]->getItem(tempValue2)->getName() << endl;
+				    }					      
+				}
+			    }    
+			}
+		    }
+		}
+	   //setStatus
+	   //setAccept
+	   //addTrigger
+	   //condition
 	       //has
 	       //object
 	       //owner
-	     //print
-	     //setAction
-
-
-	     
+	   //print
+	   //setAction
+	   
+	   
+	   
 	}
-	
+      
       if(tempName == "creature")
 	{
-		xml_node<> *tempNode2 = node1->first_node();
+	  xml_node<> *tempNode2 = node1->first_node();
 	  
 	  tempValue2 = tempNode2->value();
 	  cout << tempValue2 << "!!!!!!!"  <<endl;
-
+	  
 	  //search creature vector for creature with same name
-
-		int i = 0;
-		for(i= 0 ; i < creatures.size(); i ++)
+	  
+	  int i = 0;
+	  for(i= 0 ; i < creatures.size(); i ++)
+	    {
+	      if(creatures[i]->getName() == tempValue2)
 		{
-			if(creatures[i]->getName() == tempValue2)
-			{
-				for(xml_node<> *node2 = node1->first_node();
+		  for(xml_node<> *node2 = node1->first_node();
 		      node2; node2 = node2->next_sibling())
-		    	{
-		     	 tempName2 = node2->name();
-		     	 tempValue2 = node2->value();
-
-		     	 if(tempName2 == "vulnerability")
-		     	 {
-		     	 	cout << tempName2 << endl;
-		     	 	creatures[i]->setVulnerability(tempValue2);
-		     	 	cout << creatures[i]->getVulnerability() << endl;
-		     	 }
-		     	 if(tempName2 == "attack")
-		     	 {
-		     	 	//creatures[i]->setAttack(Attack());
-		     	 	//decide how to implement attack
-		     	 	//typedef struct condition?
-		     	 	//Creature doesnt compile on its own with Attack
-
-		     	 }
-		     	 if(tempValue2 == "trigger")
-		     	 {	
-		     	 	//triggers also have condition
-		     	 }
-
-
-		  		}
-
+		    {
+		      tempName2 = node2->name();
+		      tempValue2 = node2->value();
+		      
+		      if(tempName2 == "vulnerability")
+			{
+			  cout << tempName2 << endl;
+			  creatures[i]->setVulnerability(tempValue2);
+			   cout << creatures[i]->getVulnerability() << endl;
 			}
-
+		      if(tempName2 == "attack")
+			{
+			  cout << tempName2 << endl;
+			  creatures[i]->setAttack(new Attack());
+			  for(xml_node<> *node3 = node2->first_node();
+			      node3; node3 = node3->next_sibling())
+			    {
+			      tempName3 = node3->name();
+			      tempValue3 = node3->value();
+			      if(tempName3 == "print")
+				{
+				  cout << tempName3 << endl;
+				  creatures[i]->getAttack()->setPrint(tempValue3);
+				  cout << creatures[i]->getAttack()->getPrint() << endl;
+				}
+			      if(tempName3 == "condition")
+				{
+				  for(xml_node<> *node4 = node3->first_node();node4; node4 = node4->next_sibling())
+				    {
+				      tempName4 = node4->name();
+				      tempValue4 = node4->value();
+				      if(tempName4 == "object")
+					{
+					  cout << tempName4 << endl;
+					  creatures[i]->getAttack()->setObject(tempValue4);
+					  cout << creatures[i]->getAttack()->getObject() << endl;
+					}
+				      if(tempName4 == "status")
+					{
+					  cout << tempName4 << endl;
+					  creatures[i]->getAttack()->setStatus(tempValue4);
+					  cout << creatures[i]->getAttack()->getStatus() << endl;
+					}
+				    }
+				}
+			    }
+			}
+		      if(tempValue2 == "trigger")
+			{	
+			  //triggers also have condition
+			}
+		      
+		    }
 		}
+	    }
 	  //add vulnerabilty
 	  //add attack
-	    //condition
-	      //object
-	      //status
-	    //print
-	    //add action
+	  //condition
+	  //object
+	  //status
+	  //print
+	  //add action
 	  //add trigger
-	    //setType
-	    //condition
-	       //object
-	       //status
-            //print
-
-
+	  //setType
+	  //condition
+	  //object
+	  //status
+	  //print
+	  
 	}
-
       
-      cout << "Node has name1 " << node1->name() << " ";
-      cout << "with value1 " << node1->value() << "\n";
+      // cout << "Node has name1 " << node1->name() << " ";
+      //cout << "with value1 " << node1->value() << "\n";
       /*
 	for(xml_node<> *node2 = node1->first_node();
 	node2; node2 = node2->next_sibling())
 	{
 	cout << "Node has name2 " << node2->name() << " ";
 	cout << "with value2 " << node2->value() << "\n";
-	  
+	
 	}
       */
       i++;
+	}
+      
+      
     }
   
-  
-}
+

@@ -4,7 +4,7 @@
 #include <vector>
 #include <iostream>
 #include "Item.h"
-//#include "Attack.h"
+#include "Attack.h"
 #include "Triggers.h"
 
 using namespace std;
@@ -20,7 +20,7 @@ private:
 	string name;
   	string description;
   	string status;
-  	//Attack attack;
+  	Attack* attack;
   	string condition_satisfy;
 
 public:
@@ -37,10 +37,10 @@ public:
 
 	void setVulnerability(string newVulnerability);
 	string getVulnerability();
-	/*
-	void setAttack(Attack newAttack);
-	Attack getAttack();
-	*/
+	
+	void setAttack(Attack* newAttack);
+	Attack* getAttack();
+	
 	vector<Triggers> getTriggers();
 	void setTriggers(Triggers);
 
