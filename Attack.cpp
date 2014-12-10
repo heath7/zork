@@ -11,6 +11,15 @@ Attack::Attack()
 }
 
 
+void Attack::addAction(string newAction)
+{
+  actions.push_back(newAction);
+}
+
+vector <string> Attack::getActions()
+{
+  return actions;
+}
 string Attack::getStatus()
   {
     return status;

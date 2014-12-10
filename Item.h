@@ -38,6 +38,9 @@ public:
 	void setPrint(string);
 	string getPrint();
 
+	void addAction(string);
+	vector<string> getActions();
+
 private:
 	string name;
 	string description;
@@ -45,6 +48,7 @@ private:
 	string writing;
 	string print;
 	string on;
+	vector <string> actions;
 	int onFlag;
 	Triggers * triggers;
 };

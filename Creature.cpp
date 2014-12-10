@@ -9,21 +9,31 @@ Creature::Creature()
  
 }
 
-string Creature::getName()
-  {
-    return name;
-  }
+void Creature::addAction(string newAction)
+{
+  actions.push_back(newAction);
+}
 
-  void Creature::setName(string newName)
-  {
-    this->name = newName;
-  }
-  
+vector<string> Creature::getActions()
+{
+  return actions;
+}
+
+string Creature::getName()
+{
+  return name;
+}
+
+void Creature::setName(string newName)
+{
+  this->name = newName;
+}
+
 
 string Creature::getDescription() 
-  {
-    return description;
-  }
+{
+  return description;
+}
 
   void Creature::setDescription(string newDescription)
   {

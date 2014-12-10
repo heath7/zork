@@ -40,6 +40,9 @@ class Container
   string getAccept();
   void setAccept(string);
 
+  void addAction(string newAction);
+  vector<string> getActions();
+
  private:
   //const unsigned int MAX_ITEMS;
   string name;
@@ -49,6 +52,7 @@ class Container
   vector<Triggers> triggers;
   vector<Item*> items;
   string accept;
+  vector <string> actions;
 };
 
 #endif

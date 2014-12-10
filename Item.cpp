@@ -8,6 +8,16 @@ Item::Item()
   writing = "default";
 }
 
+void Item::addAction(string newAction)
+{
+  actions.push_back(newAction);
+}
+
+vector <string> Item::getActions()
+{
+  return actions;
+}
+
 void Item::setName(string newName)
 {
 name = newName;

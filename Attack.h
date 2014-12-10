@@ -20,10 +20,14 @@ public:
   void setStatus(string newStatus);
   string getStatus();
   
+  void addAction(string);
+  vector<string> getActions();
+
  private:
   string status;
   string object;
   string print;
+  vector <string> actions;
 };
 
 #endif

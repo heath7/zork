@@ -9,6 +9,7 @@
 #include "Item.h"
 #include "Container.h"
 #include "Creature.h"
+#include "Triggers.h"
 
 
 using std::string;
@@ -25,10 +26,15 @@ string tempValue4;
 string tempValue;
 string borderDirection;
 string borderName;
+string trigHas;
+string trigStatus;
+string trigOwner;
+string trigObject;
 vector<Room*> rooms;
 vector<Item*> items;
 vector<Container*> containers;
 vector<Creature*> creatures;
+vector<Triggers*> triggers;
 
 
 //vector<Creature*> cretures;
@@ -116,19 +122,78 @@ int main(){
 		}
 	      if(tempName2 == "creature")
 		{
-			Creature* newCreature = new Creature(); //create new creature
-			tempValue2 = node2->value();
-			newCreature->setName(tempValue2);
-			creatures.push_back(newCreature); //add creature to creature array
-			rooms[i]->addCreature(newCreature);//add creature to room
+		  Creature* newCreature = new Creature(); //create new creature
+		  tempValue2 = node2->value();
+		  newCreature->setName(tempValue2);
+		  creatures.push_back(newCreature); //add creature to creature array
+		  rooms[i]->addCreature(newCreature);//add creature to room
 		}
 	      if(tempName2 == "item")
 		{
 		  Item* newItem = new Item();//create new item
-		       items.push_back(newItem);//add item to item array
-		       tempValue2 = node2->value();
-		       items.back()->setName(tempValue2);
-		       rooms.back()->addItem(newItem);	  //add item to room
+		  items.push_back(newItem);//add item to item array
+		  tempValue2 = node2->value();
+		  items.back()->setName(tempValue2);
+		  rooms.back()->addItem(newItem);	  //add item to room
+		}
+	      
+	      if(tempName2 == "trigger")
+		{
+		  Triggers* newTriggers = new Triggers();
+		  triggers.push_back(newTriggers);
+		  
+		  for(xml_node<> *node3 = node2->first_node();
+		      node3; node3 = node3->next_sibling())
+		    {
+		      tempName3 = node3->name();
+		      tempValue3 = node3->value();
+		      
+		      if(tempName3 == "type")
+			{
+			  cout << tempName3 << endl;
+			  newTriggers->setType(tempValue3);
+			  cout << newTriggers->getType() << endl;
+			}
+		      if(tempName3 == "command")
+			{
+			  cout << tempName3 << endl;
+			  newTriggers->setCommand(tempValue3);
+			  cout << newTriggers->getCommand() << endl;
+			}
+		      if(tempName3 == "condition")
+			{
+			  trigHas = "default";
+			  trigObject = "default";
+			  trigOwner = "default";
+			  trigStatus = "default";
+			  for(xml_node<> *node4 = node3->first_node();
+			      node4; node4 = node4->next_sibling())
+			    {
+			      tempName4 = node4->name();
+			      tempValue4 = node4->value();
+			      if(tempName4 == "has" )
+				{
+				  trigHas = tempValue4;
+				}
+			      if(tempName4 == "object")
+				{
+				  trigObject = tempValue4;
+				}
+			      if(tempName4 == "owner")
+				{
+				  trigOwner = tempValue4;
+				}
+			      if(tempName4 == "status")
+				{
+				  trigStatus == tempValue4;
+				}
+			      
+			    }
+			  newTriggers->setCondition(trigObject, trigStatus, trigHas, trigOwner);
+			  cout << "trigger object" << endl;
+			  cout << newTriggers->getCondition().object << endl;
+			}
+		    }
 		}
 	      
 	      
@@ -138,8 +203,8 @@ int main(){
 	  
 	}
       
-
-
+      
+      
       if(tempName == "item")
 	{
 	  xml_node<> *tempNode2 = node1->first_node();
@@ -187,6 +252,16 @@ int main(){
 				  items[i]->setPrint(tempValue3);
 				  cout << items[i]->getPrint() << endl;
 				}
+			      if(tempName3 == "action")
+				{
+				  cout << tempName3 << endl;
+				  items[i]->addAction(tempValue3);
+				  for(int q =0; q < items[i]->getActions().size(); q++)
+				    {
+				      cout << items[i]->getActions()[q] << endl;
+				    }
+				  
+				}
 			    }
 			}
 		    }
@@ -219,9 +294,10 @@ int main(){
 			  tempItem->setStatus(node2->value());
 			  cout << tempItem->getStatus() << endl;
 			}
+
 		      if(tempName2 == "turnon")
 			{
-			   for(xml_node<> *node3 = node2->first_node();
+			  for(xml_node<> *node3 = node2->first_node();
 			      node3; node3 = node3->next_sibling())
 			    {
 			      tempName3 = node3->name();
@@ -231,6 +307,16 @@ int main(){
 				  cout << tempName3 << endl;
 				  tempItem->setPrint(tempValue3);
 				  cout << tempItem->getPrint() << endl;
+				}
+			      if(tempName3 == "action")
+				{
+				  cout << tempName3 << endl;
+				  tempItem->addAction(tempValue3);
+				  for(int q =0; q < tempItem->getActions().size(); q++)
+				    {
+				      cout << tempItem->getActions()[q] << endl;
+				    }
+				  
 				}
 			    }
 			}
@@ -350,6 +436,15 @@ int main(){
 				  cout << tempName3 << endl;
 				  creatures[i]->getAttack()->setPrint(tempValue3);
 				  cout << creatures[i]->getAttack()->getPrint() << endl;
+				}
+			      if(tempName3 == "action")
+				{
+				  cout << tempName3 << endl;
+				  creatures[i]->getAttack()->addAction(tempValue3);
+				  for(int q = 0; q < (creatures[i]->getAttack())->getActions().size(); q++)
+				    {
+				      cout << ((creatures[i]->getAttack())->getActions())[q] << endl;
+				    }
 				}
 			      if(tempName3 == "condition")
 				{

@@ -22,10 +22,15 @@ private:
   	string status;
   	Attack* attack;
   	string condition_satisfy;
+	vector<string> actions;
+
 
 public:
 	Creature();
 	
+	void addAction(string);//not used
+	vector <string> getActions();//not used
+
 	string getName();
 	void setName(string newName);
 

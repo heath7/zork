@@ -90,5 +90,15 @@ void Container::setAccept(string newAccept){
   accept = newAccept;
 }
 
+void Container::addAction(string newAction)
+{
+  actions.push_back(newAction);
+}
+
+vector<string> Container::getActions()
+{
+  return actions;
+}
+
 
 
