@@ -69,11 +69,11 @@ Attack* Creature::getAttack()
 return attack;
 }
 
-vector<Triggers> Creature::getTriggers(){
+vector<Triggers*> Creature::getTriggers(){
   return triggers;
 }
 
-void Creature::setTriggers(Triggers newTriggers){
+void Creature::addTriggers(Triggers* newTriggers){
   (this->triggers).push_back(newTriggers);
 }
 

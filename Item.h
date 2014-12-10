@@ -32,8 +32,8 @@ public:
 	string getIsOn();
 	void setIsOn(string);
 
-	Triggers * getTriggers();
-	void setTriggers(Triggers*);
+	vector<Triggers*> getTriggers();
+	void addTriggers(Triggers*);
 
 	void setPrint(string);
 	string getPrint();
@@ -50,6 +50,6 @@ private:
 	string on;
 	vector <string> actions;
 	int onFlag;
-	Triggers * triggers;
+	vector <Triggers*> triggers;
 };
 #endif

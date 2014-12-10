@@ -34,8 +34,8 @@ class Container
   Item* getItem(string target);
   void setItem(Item*);
 
-  vector<Triggers> getTrigger();
-  void setTrigger(Triggers);
+  vector<Triggers*> getTriggers();
+  void addTriggers(Triggers*);
 
   string getAccept();
   void setAccept(string);
@@ -49,7 +49,7 @@ class Container
   string description;
   string status;
   string condition;
-  vector<Triggers> triggers;
+  vector<Triggers*> triggers;
   vector<Item*> items;
   string accept;
   vector <string> actions;

@@ -75,13 +75,13 @@ void Item::turnOff(){
   onFlag = 0;
 }
 
-Triggers * Item::getTriggers()
+vector <Triggers*> Item::getTriggers()
 {
   return triggers;
 }
 
-void Item::setTriggers(Triggers* newTriggers){
-  this->triggers = newTriggers;
+void Item::addTriggers(Triggers* newTriggers){
+  this->triggers.push_back(newTriggers);
 }
 
 void Item::setPrint(string newPrint)

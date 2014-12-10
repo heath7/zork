@@ -74,11 +74,11 @@ void Container::addItem(Item* newItem)
 }
 
 
-vector<Triggers> Container::getTrigger(){
+vector<Triggers*> Container::getTriggers(){
   return triggers;
 }
 
-void Container::setTrigger(Triggers newTrigger){
+void Container::addTriggers(Triggers* newTrigger){
   (this->triggers).push_back(newTrigger);
 }
 

@@ -14,7 +14,7 @@ using namespace std;
 class Creature {
 private:
 	string vulnerability;
-	vector<Triggers> triggers;
+	vector<Triggers*> triggers;
 
 	string condition;
 	string name;
@@ -46,8 +46,8 @@ public:
 	void setAttack(Attack* newAttack);
 	Attack* getAttack();
 	
-	vector<Triggers> getTriggers();
-	void setTriggers(Triggers);
+	vector<Triggers*> getTriggers();
+	void addTriggers(Triggers*);
 
 	string getConditionSatisfy();
 	void setConditionSatisfy(string);
