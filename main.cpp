@@ -35,11 +35,12 @@ vector<Item*> items;
 vector<Container*> containers;
 vector<Creature*> creatures;
 vector<Triggers*> triggers;
-
+Room* currentRoom = NULL;;
 int i = 0;
 
 
-int main(){
+int main()
+{
  
   file<> xmlFile("sample.txt.xml"); // Default template is char
   xml_document<> doc;
@@ -618,7 +619,23 @@ int main(){
 	    }
 	}
       i++;
-    }  
+    } 
+
+  //init starting room
+  for(i = 0; i < rooms.size(); i++)
+    {
+      if(rooms[i]->getName() == "Entrance")
+	{
+	  currentRoom = rooms[i];
+	  break;
+	}
+    }
+  //welcome() 
+  if(currentRoom != NULL)
+    {
+      cout << currentRoom->getDescription() << endl;
+    }
+  
 }
 
 
