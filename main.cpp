@@ -141,6 +141,7 @@ int main(){
 		{
 		  Triggers* newTriggers = new Triggers();
 		  triggers.push_back(newTriggers);
+		  rooms[i]->addTriggers(newTriggers);
 		  
 		  for(xml_node<> *node3 = node2->first_node();
 		      node3; node3 = node3->next_sibling())
@@ -160,6 +161,12 @@ int main(){
 			  newTriggers->setCommand(tempValue3);
 			  cout << newTriggers->getCommand() << endl;
 			}
+		      if(tempName3 == "print")
+			{
+			  cout << tempName3 << endl;
+			  newTriggers->setPrint(tempValue3);
+			  cout << rooms[i]->getTriggers()[0]->getPrint() << endl;
+			}
 		      if(tempName3 == "condition")
 			{
 			  trigHas = "default";
@@ -177,7 +184,7 @@ int main(){
 				}
 			      if(tempName4 == "object")
 				{
-				  trigObject = tempValue4;
+				  trigObject = tempValue4; 
 				}
 			      if(tempName4 == "owner")
 				{
@@ -185,22 +192,25 @@ int main(){
 				}
 			      if(tempName4 == "status")
 				{
-				  trigStatus == tempValue4;
+				  trigStatus = tempValue4;
 				}
 			      
 			    }
 			  newTriggers->setCondition(trigObject, trigStatus, trigHas, trigOwner);
-			  cout << "trigger object" << endl;
-			  cout << newTriggers->getCondition().object << endl;
+			  cout << "trigger" << endl << "object" << endl;
+			  cout << rooms[i]->getTriggers()[0]->getCondition()->object << endl;
+			  cout << "has" << endl;
+			  cout << newTriggers->getCondition()->has << endl;
+			  cout << "owner" << endl;
+			  cout << newTriggers->getCondition()->owner << endl;
+			  cout << "status" << endl;
+			  cout << newTriggers->getCondition()->status << endl;
 			}
 		    }
 		}
-	      
-	      
 	      cout << "Node has name2 " << node2->name() << " ";
 	      cout << "with value2 " << node2->value() << "\n";
 	    }
-	  
 	}
       
       

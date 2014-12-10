@@ -12,16 +12,16 @@ void Triggers::setType(string newType){
 	this->type=newType;
 }
 
-Conditions Triggers::getCondition() {
+Conditions* Triggers::getCondition() {
 	return condition;
 }
 
 void Triggers::setCondition(string object, string status, string has, string owner) {
-  Conditions condition = Conditions();
-	condition.status = status;
-	condition.has = has;
-	condition.owner = owner;
-	condition.object=object;
+        condition = new Conditions();
+	condition->status = status;
+	condition->has = has;
+	condition->owner = owner;
+	condition->object=object;
 }
 
 vector<string> Triggers::getActions() {

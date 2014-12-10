@@ -17,7 +17,7 @@ class Triggers{
 	string getType();
 	void setType(string);
 
-	Conditions getCondition();
+	Conditions* getCondition();
 	void setCondition(string, string, string, string);
 
 	vector<string> getActions();
@@ -34,6 +34,6 @@ class Triggers{
 	string print;
 	vector<string> actions;
 	string command;
-	Conditions condition;
+	Conditions* condition;
 };
 #endif

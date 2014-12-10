@@ -57,7 +57,8 @@ public:
   Creature*  getCreature(string creatureName);
   void addCreature(Creature*);
 
-  //Triggers* getTriggers(string triggerName);
+  vector <Triggers*> getTriggers();
+  void addTriggers(Triggers*);
 
 
   // void removeItem(string itemName);

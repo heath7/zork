@@ -64,14 +64,15 @@ items.push_back(newItem);
 
 Item* Room::getItem(string itemName)
 {
-int i = 0;
-for(i = 0; i < items.size(); i++)
-{
-if(items[i]->getName().compare(itemName) == 0)
-{
-return items[i];
-}
-}
+  int i = 0;
+  for(i = 0; i < items.size(); i++)
+    {
+      if(items[i]->getName().compare(itemName) == 0)
+	{
+	  return items[i];
+	}
+    }
+  return NULL;
 }
 
 string Room::getBorderName(string dir){
@@ -94,11 +95,8 @@ Container* Room::getContainer(string target){
 	{
 	  return containers[i];
 	}
-      else
-	{
-	  return NULL;
-	}
     }
+  return NULL;
 }
 
 void Room::addContainer(Container* newContainer){
@@ -114,26 +112,21 @@ Creature * Room::getCreature(string target){
 	  return creatures[i];
 	}
     }
+  return NULL;
 }
 
 void Room::addCreature(Creature* newCreature){
   (this->creatures).push_back(newCreature);
 }
 
-/*Triggers * Room::getTriggers(string){
-  int i = 0;
-  for(i = 0; i < triggers.size(); i++ )
-  {
-  if(triggers[i]->getName() == target)
-  {
-  return triggers[i];
-  }
-  }
-}*/
+vector <Triggers*> Room::getTriggers()
+{
+  return triggers;
+}
 
-/*void Room::setTriggers(Triggers* newTriggers){
+void Room::addTriggers(Triggers* newTriggers){
   (this->triggers).push_back(newTriggers);
-}*/
+}
 
 /*
 main()
