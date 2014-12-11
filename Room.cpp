@@ -75,6 +75,9 @@ Item* Room::getItem(string itemName)
   return NULL;
 }
 
+
+
+
 string Room::getBorderName(string dir){
   for(int i = 0; i < borders.size(); i++)
   {
@@ -127,6 +130,7 @@ vector <Triggers*> Room::getTriggers()
 void Room::addTriggers(Triggers* newTriggers){
   (this->triggers).push_back(newTriggers);
 }
+
 
 /*
 main()

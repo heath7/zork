@@ -10,10 +10,7 @@
 #include "Container.h"
 #include "Creature.h"
 #include "Triggers.h"
-
-
 using std::string;
-
 using namespace std;
 using namespace rapidxml;
 string tempName;
@@ -35,16 +32,14 @@ vector<Item*> items;
 vector<Container*> containers;
 vector<Creature*> creatures;
 vector<Triggers*> triggers;
-Room* currentRoom = NULL;;
+
+Room* current_room = NULL;;
+
 int i = 0;
-
-
 int main()
 {
- 
   file<> xmlFile("sample.txt.xml"); // Default template is char
   xml_document<> doc;
-  
   doc.parse<0>(xmlFile.data());
   cout << "Name of my first node is: " << doc.first_node()->name() << "\n";
   xml_node<> *map = doc.first_node();
@@ -58,7 +53,7 @@ int main()
 	{
 	  Room* room1 = new Room();//create a room
 	  rooms.push_back(room1);
-	  // tempValue = room1.getName(); 
+	  // tempValue = room1.getName();
 	  // cout << room1.getName() << "/n";
 	  for(xml_node<> *node2 = node1->first_node();
 	      node2; node2 = node2->next_sibling())
@@ -99,16 +94,16 @@ int main()
 			  borderName = tempValue3;
 			}
 		    }
-		    rooms[i]->addBorder(borderDirection, borderName);
-		    cout << borderDirection << endl;
-		     cout << rooms[i]->getBorderName(borderDirection) << endl;
+		  rooms[i]->addBorder(borderDirection, borderName);
+		  cout << borderDirection << endl;
+		  cout << rooms[i]->getBorderName(borderDirection) << endl;
 		}
 	      if(tempName2 == "container")
 		{
-		  Container* newContainer = new Container();  //create new container
+		  Container* newContainer = new Container(); //create new container
 		  containers.push_back(newContainer);
 		  tempValue2 = node2->value();
-		  containers.back()->setName(tempValue2);   //add container to contianer array
+		  containers.back()->setName(tempValue2); //add container to contianer array
 		  rooms.back()->addContainer(newContainer); //add container to room
 		}
 	      if(tempName2 == "creature")
@@ -125,21 +120,18 @@ int main()
 		  items.push_back(newItem);//add item to item array
 		  tempValue2 = node2->value();
 		  items.back()->setName(tempValue2);
-		  rooms.back()->addItem(newItem);	  //add item to room
+		  rooms.back()->addItem(newItem); //add item to room
 		}
-	      
 	      if(tempName2 == "trigger")
 		{
 		  Triggers* newTriggers = new Triggers();
 		  triggers.push_back(newTriggers);
 		  rooms[i]->addTriggers(newTriggers);
-		  
 		  for(xml_node<> *node3 = node2->first_node();
 		      node3; node3 = node3->next_sibling())
 		    {
 		      tempName3 = node3->name();
 		      tempValue3 = node3->value();
-		      
 		      if(tempName3 == "type")
 			{
 			  cout << tempName3 << endl;
@@ -175,7 +167,7 @@ int main()
 				}
 			      if(tempName4 == "object")
 				{
-				  trigObject = tempValue4; 
+				  trigObject = tempValue4;
 				}
 			      if(tempName4 == "owner")
 				{
@@ -184,7 +176,7 @@ int main()
 			      if(tempName4 == "status")
 				{
 				  trigStatus = tempValue4;
-				}    
+				}
 			    }
 			  newTriggers->setCondition(trigObject, trigStatus, trigHas, trigOwner);
 			  cout << "trigger" << endl << "object" << endl;
@@ -202,13 +194,12 @@ int main()
 	      cout << "with value2 " << node2->value() << "\n";
 	    }
 	}
-      
       if(tempName == "item")
 	{
 	  xml_node<> *tempNode2 = node1->first_node();
 	  Item* tempItem;
 	  tempValue2 = tempNode2->value();
-	  cout << tempValue2 << "!!!!!!!!!"  <<endl;
+	  cout << tempValue2 << "!!!!!!!!!" <<endl;
 	  int found = 0;
 	  int i = 0;
 	  for(i = 0; i < items.size(); i++)
@@ -229,23 +220,19 @@ int main()
 	      node2; node2 = node2->next_sibling())
 	    {
 	      tempName2 = node2->name();
-	      
 	      tempValue2 = node2->value();
-	      
 	      if(tempName2 == "writing")//set writing
 		{
 		  cout << tempName2 << endl;
 		  tempItem->setWriting(node2->value());
 		  cout << tempItem->getWriting() << endl;
 		}
-	      
 	      if(tempName2 == "status")//set status
 		{
 		  cout << tempName2 << endl;
 		  tempItem->setStatus(node2->value());
 		  cout << tempItem->getStatus() << endl;
 		}
-	      
 	      if(tempName2 == "turnon")
 		{
 		  for(xml_node<> *node3 = node2->first_node();
@@ -266,23 +253,21 @@ int main()
 			  for(int q =0; q < tempItem->getActions().size(); q++)
 			    {
 			      cout << tempItem->getActions()[q] << endl;
-			    } 
+			    }
 			}
 		    }
 		}
 	      //create trigger NOT SURE IF ITEMS NEED TRIGGERS
-	       if(tempName2 == "trigger")
+	      if(tempName2 == "trigger")
 		{
 		  Triggers* newTriggers = new Triggers();
 		  triggers.push_back(newTriggers);
 		  tempItem->addTriggers(newTriggers);
-		  
 		  for(xml_node<> *node3 = node2->first_node();
 		      node3; node3 = node3->next_sibling())
 		    {
 		      tempName3 = node3->name();
 		      tempValue3 = node3->value();
-		      
 		      if(tempName3 == "type")
 			{
 			  cout << tempName3 << endl;
@@ -318,7 +303,7 @@ int main()
 				}
 			      if(tempName4 == "object")
 				{
-				  trigObject = tempValue4; 
+				  trigObject = tempValue4;
 				}
 			      if(tempName4 == "owner")
 				{
@@ -327,7 +312,7 @@ int main()
 			      if(tempName4 == "status")
 				{
 				  trigStatus = tempValue4;
-				}			      
+				}
 			    }
 			  newTriggers->setCondition(trigObject, trigStatus, trigHas, trigOwner);
 			  cout << "trigger" << endl << "object" << endl;
@@ -340,17 +325,15 @@ int main()
 			  cout << newTriggers->getCondition()->status << endl;
 			}
 		    }
-		}    
-	    }   
-	} 
-      
+		}
+	    }
+	}
       if(tempName == "container")
 	{
 	  //search container vector for container with same name
 	  xml_node<> *tempNode2 = node1->first_node();
-	  
 	  tempValue2 = tempNode2->value();
-	  cout << tempValue2 << "!!!!!!!"  <<endl;
+	  cout << tempValue2 << "!!!!!!!" <<endl;
 	  int found = 0;
 	  int i = 0;
 	  for(i = 0; i < containers.size(); i++)
@@ -358,14 +341,11 @@ int main()
 	      if(containers[i]->getName().compare(tempValue2) == 0)
 		{
 		  found = 1;
-		  
 		  for(xml_node<> *node2 = node1->first_node();
 		      node2; node2 = node2->next_sibling())
 		    {
 		      tempName2 = node2->name();
-		      
 		      tempValue2 = node2->value();
-		      
 		      if(tempName2 == "accept")
 			{
 			  cout << tempName2 << endl;
@@ -384,15 +364,15 @@ int main()
 			  //cout << tempValue2 << endl;
 			  int j = 0;
 			  for(j = 0; j < items.size(); j++)
-			    {	
-			      //cout << items[j]->getName() << endl;		      
+			    {
+			      //cout << items[j]->getName() << endl;
 			      if(items[j]->getName() == tempValue2)
 				{
 				  //cout << "!!!!!!!!"<< endl;
 				  //cout << tempValue2 << endl;
 				  containers[i]->addItem(items[j]);//////
 				  cout << containers[i]->getItem(tempValue2)->getName() << endl;
-				}					      
+				}
 			    }
 			}
 		      //add trigger
@@ -401,13 +381,11 @@ int main()
 			  Triggers* newTriggers = new Triggers();
 			  triggers.push_back(newTriggers);
 			  containers[i]->addTriggers(newTriggers);
-			  
 			  for(xml_node<> *node3 = node2->first_node();
 			      node3; node3 = node3->next_sibling())
 			    {
 			      tempName3 = node3->name();
 			      tempValue3 = node3->value();
-			      
 			      if(tempName3 == "type")
 				{
 				  cout << tempName3 << endl;
@@ -443,7 +421,7 @@ int main()
 					}
 				      if(tempName4 == "object")
 					{
-					  trigObject = tempValue4; 
+					  trigObject = tempValue4;
 					}
 				      if(tempName4 == "owner")
 					{
@@ -453,7 +431,6 @@ int main()
 					{
 					  trigStatus = tempValue4;
 					}
-				      
 				    }
 				  newTriggers->setCondition(trigObject, trigStatus, trigHas, trigOwner);
 				  cout << "trigger" << endl << "object" << endl;
@@ -469,16 +446,13 @@ int main()
 			}
 		    }
 		}
-	    }	 
+	    }
 	}
-      
       if(tempName == "creature")
 	{
 	  xml_node<> *tempNode2 = node1->first_node();
-	  
 	  tempValue2 = tempNode2->value();
-	  cout << tempValue2 << "!!!!!!!"  <<endl;
-	  
+	  cout << tempValue2 << "!!!!!!!" <<endl;
 	  //search creature vector for creature with same name
 	  int i = 0;
 	  for(i= 0 ; i < creatures.size(); i ++)
@@ -490,12 +464,11 @@ int main()
 		    {
 		      tempName2 = node2->name();
 		      tempValue2 = node2->value();
-		      
 		      if(tempName2 == "vulnerability")
 			{
 			  cout << tempName2 << endl;
 			  creatures[i]->setVulnerability(tempValue2);
-			   cout << creatures[i]->getVulnerability() << endl;
+			  cout << creatures[i]->getVulnerability() << endl;
 			}
 		      if(tempName2 == "attack")
 			{
@@ -549,13 +522,11 @@ int main()
 			  Triggers* newTriggers = new Triggers();
 			  triggers.push_back(newTriggers);
 			  creatures[i]->addTriggers(newTriggers);
-			  
 			  for(xml_node<> *node3 = node2->first_node();
 			      node3; node3 = node3->next_sibling())
 			    {
 			      tempName3 = node3->name();
 			      tempValue3 = node3->value();
-			      
 			      if(tempName3 == "type")
 				{
 				  cout << tempName3 << endl;
@@ -591,7 +562,7 @@ int main()
 					}
 				      if(tempName4 == "object")
 					{
-					  trigObject = tempValue4; 
+					  trigObject = tempValue4;
 					}
 				      if(tempName4 == "owner")
 					{
@@ -613,29 +584,157 @@ int main()
 				  cout << newTriggers->getCondition()->status << endl;
 				}
 			    }
-			}	      
+			}
 		    }
 		}
 	    }
 	}
       i++;
-    } 
-
+    }
   //init starting room
   for(i = 0; i < rooms.size(); i++)
     {
       if(rooms[i]->getName() == "Entrance")
 	{
-	  currentRoom = rooms[i];
+	  current_room = rooms[i];
 	  break;
 	}
     }
-  //welcome() 
-  if(currentRoom != NULL)
+  //welcome()
+  if(current_room != NULL)
     {
-      cout << currentRoom->getDescription() << endl;
+      cout << current_room->getDescription() << endl;
     }
-  
+
+
+    vector<Item*> Inventory;
+    vector<Room*>::iterator room_iter = rooms.begin();
+    vector<Item*>::iterator item_iter = items.begin();
+    vector<Container*>::iterator container_iter = containers.begin();
+    vector<Creature*>::iterator creature_iter = creatures.begin();
+
+	int game_end = 0;
+
+    while(game_end == 0) 
+    {
+    	string stay = "";
+    
+    	cout << current_room->getDescription() << endl;
+
+
+    		int valid;
+    		string input_command[6] = {"n","s", "e", "w", "i", "open exit"};
+    		int return_val = 0; //ret
+    		int check_has = 0;
+    		int error = 1;
+    		int is_valid = 0;
+
+    		vector<Triggers*> current_room_trigger = current_room->getTriggers();
+    		//read user input
+
+    		int a = 0;
+    		for(a = 0 ; a < current_room_trigger.size(); a++)
+    		{
+    			string tempObject = current_room_trigger[a]->getObject();
+    			string tempStatus = current_room_trigger[a]->getStatus();
+    			string tempHas = current_room_trigger[a]->getHas();
+    			string tempOwner = current_room_trigger[a]->getOwner();
+
+    			for(int b = 0; b < items.size(); b++)
+				{
+					if(tempObject == items[b]->getName())
+					{
+						//find matching item
+				
+						if((items[b]->getStatus()) == tempStatus)
+						{
+							cout << current_room_trigger[a]->getPrint() << endl;
+							//action
+						}
+						else{
+							for(int c = 0; c < containers.size() ; c++)
+							{
+								if(containers[c]->getName() == tempOwner)
+								{
+									//check if container holds the item in question
+									vector<Item*> tempItems =  containers[c]->getItems();
+									for(int d = 0; d < containers.size() ; d++)
+									{
+										if(tempItems[d]->getName() == tempOwner)
+										{
+											cout << current_room_trigger[a]->getPrint();
+											//perform action
+										}
+
+									}
+
+								}
+
+							}
+
+						}
+
+
+					}
+
+				}
+    			//check if command mastches
+
+
+    			//if(type == single) delete trigger
+    			//current_room_trigger[a]->getType()
+
+    		}
+
+
+    		//vector<Border*> current_room_border = current_room->getBorders();
+    		
+    		//vector<Creature*> current_room_creature = current_room->getCreatures();
+    		//vector<Container*> current_room_container = current_room->getContainers();
+    		//vector<Item*> current_room_item = current_room->getItems();
+/*
+    		vector<Container>::iterator current_room_contain_trigger_iterator = current_room_container.begin();
+    		for(current_room_container_trigger_iterator = current_room_container.begin(); current_room_container_trigger_iterator != current_room_container.end(); current_room_container_trigger_iterator++) 
+    		{
+    			vector<Triggers> current_room_trigger = current_room_container_trigger_iterator->getTriggers();
+    			vector<Triggers>::iterator container_trigger_iterator = current_room_trigger.begin();
+
+    			for(container_trigger_iterator = current_room_trigger_iterator.begin(); container_trigger_iterator != current_room_trigger_iterator.end(); container_trigger_iterator++) 
+    			{
+    				Condition container_condition = container_trigger_iterator->getCondition();
+    				string has = container_condition.has();
+    				vector<string> container_trigger_action = container_trigger_iterator->getActions();
+    				vector<string> container_item = current_room_container_trigger_iterator->getItem();
+    				vector<string>::iterator container_item_iterator = container_item.begin();
+
+    				if(has == "yes") 
+    				{
+    					for(container_item_iterator = container_item.begin(); container_item_iterator != container_item.end(); container_item_iterator ++) {
+    						if(*container_item_iterator == container_condition.object) 
+    						{
+    							cout << container_trigger_iterator->getPrint() <<endl;
+    							vector<string> action_iterator = container_trigger_action->begin();
+    						}
+    					}
+    				}
+
+
+    			}
+    			
+    		}
+
+    		getline(cin,input_command);
+
+    		if(command == "n" || command == "s" || command == "e" || command == "w") 
+    		{
+
+    			vector<Triggers>::iterator trigger_iterator = current_room_trigger.begin();
+    			for(trigger_iterator = current_room_trigger.begin(); trigger != )
+    		}
+
+
+    	*/
+    	
+    }
+    
 }
-
-

@@ -47,7 +47,8 @@ public:
  
   void addBorder(string newDirection, string newName);
   string getBorderName(string);
-  
+  vector <Border*> getBorders();
+
   Item* getItem(string itemName);
   void addItem(Item* newItem);
 
@@ -73,10 +74,10 @@ public:
   */
 private:
   vector<Item*> items;
-  vector<Border*> borders;
   vector<Creature*> creatures;
   vector<Triggers*> triggers;
   vector<Container*> containers;
+  vector<Border*> borders;
   string description;
   string name;
   string type;
