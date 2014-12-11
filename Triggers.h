@@ -12,6 +12,12 @@ typedef struct _conditions{
 
 class Triggers{
  public:
+
+  Triggers()
+    {
+      type = "single";
+      command = "";
+    };
   string getType();
   void setType(string);
 

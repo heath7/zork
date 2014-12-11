@@ -62,20 +62,20 @@ int main()
 	      tempValue2 = node2->value();
 	      if(tempName2 == "name")
 		{
-		  rooms[i]->setName(tempValue2);
+		  room1->setName(tempValue2);
 		  // cout << rooms[i]->getName() << endl;
 		}
 	      if(tempName2 == "description")
 		{
-		  rooms[i]->setDescription(tempValue2);
+		  room1->setDescription(tempValue2);
 		}
 	      if(tempName2 == "status")
 		{
-		  rooms[i]->setStatus(tempValue2);
+		  room1->setStatus(tempValue2);
 		}
 	      if(tempName2 == "type")
 		{
-		  rooms[i]->setType(tempValue2);
+		  room1->setType(tempValue2);
 		}
 	      if(tempName2 == "border")
 		{
@@ -94,17 +94,17 @@ int main()
 			  borderName = tempValue3;
 			}
 		    }
-		  rooms[i]->addBorder(borderDirection, borderName);
+		  room1->addBorder(borderDirection, borderName);
 		  cout << borderDirection << endl;
-		  cout << rooms[i]->getBorderName(borderDirection) << endl;
+		  cout << room1->getBorderName(borderDirection) << endl;
 		}
 	      if(tempName2 == "container")
 		{
 		  Container* newContainer = new Container(); //create new container
 		  containers.push_back(newContainer);
 		  tempValue2 = node2->value();
-		  containers.back()->setName(tempValue2); //add container to contianer array
-		  rooms.back()->addContainer(newContainer); //add container to room
+		  newContainer->setName(tempValue2); //add container to contianer array
+		  room1->addContainer(newContainer); //add container to room
 		}
 	      if(tempName2 == "creature")
 		{
@@ -112,7 +112,7 @@ int main()
 		  tempValue2 = node2->value();
 		  newCreature->setName(tempValue2);
 		  creatures.push_back(newCreature); //add creature to creature array
-		  rooms[i]->addCreature(newCreature);//add creature to room
+		  room1->addCreature(newCreature);//add creature to room
 		}
 	      if(tempName2 == "item")
 		{
@@ -120,13 +120,13 @@ int main()
 		  items.push_back(newItem);//add item to item array
 		  tempValue2 = node2->value();
 		  items.back()->setName(tempValue2);
-		  rooms.back()->addItem(newItem); //add item to room
+		  room1->addItem(newItem); //add item to room
 		}
 	      if(tempName2 == "trigger")
 		{
 		  Triggers* newTriggers = new Triggers();
 		  triggers.push_back(newTriggers);
-		  rooms[i]->addTriggers(newTriggers);
+		  room1->addTriggers(newTriggers);
 		  for(xml_node<> *node3 = node2->first_node();
 		      node3; node3 = node3->next_sibling())
 		    {
@@ -148,7 +148,7 @@ int main()
 			{
 			  cout << tempName3 << endl;
 			  newTriggers->setPrint(tempValue3);
-			  cout << rooms[i]->getTriggers()[0]->getPrint() << endl;
+			  cout << room1->getTriggers()[0]->getPrint() << endl;
 			}
 		      if(tempName3 == "condition")
 			{
@@ -543,7 +543,7 @@ int main()
 				{
 				  cout << tempName3 << endl;
 				  newTriggers->setPrint(tempValue3);
-				  cout << rooms[i]->getTriggers()[0]->getPrint() << endl;
+				  cout << creatures[i]->getTriggers()[0]->getPrint() << endl;
 				}
 			      if(tempName3 == "condition")
 				{
@@ -600,19 +600,24 @@ int main()
 	  break;
 	}
     }
+
+
   //welcome()
   if(current_room != NULL)
     {
       cout << current_room->getDescription() << endl;
+      cout << current_room->getBorderName("n") << endl;
+      cout << current_room->getItems()[0]->getName() << endl;
     }
 
 
-    vector<Item*> Inventory;
+    vector<Item*> inventory;
     vector<Room*>::iterator room_iter = rooms.begin();
     vector<Item*>::iterator item_iter = items.begin();
     vector<Container*>::iterator container_iter = containers.begin();
     vector<Creature*>::iterator creature_iter = creatures.begin();
 
+    string command;
 	int game_end = 0;
 
     while(game_end == 0) 
@@ -620,31 +625,54 @@ int main()
     	string stay = "";
     
     	cout << current_room->getDescription() << endl;
-
+    		getline(cin,command);
+		
 
     		int valid;
     		string input_command[6] = {"n","s", "e", "w", "i", "open exit"};
     		int return_val = 0; //ret
     		int check_has = 0;
     		int error = 1;
-    		int is_valid = 0;
+    		int has_check = 0;
     		int trigger_true = 0;
 
     		vector<Triggers*> current_room_trigger = current_room->getTriggers();
     		//read user input
 
+
     		int a = 0;
+    		int command_flag = 0;
+
+
+
+
+
+/*
     		for(a = 0 ; a < current_room_trigger.size(); a++)
     		{
     			string tempObject = current_room_trigger[a]->getObject();
     			string tempStatus = current_room_trigger[a]->getStatus();
     			string tempHas = current_room_trigger[a]->getHas();
     			string tempOwner = current_room_trigger[a]->getOwner();
+    			if(current_room_trigger[a]->getCommand() == command )
+    			{
+    				command_flag = 1;
+
+    			}
+    			else if(current_room_trigger[a]->getCommand() == "")
+    			{
+    				command_flag = 1;
+    				
+    			}
+    			cout << command_flag << endl;
+    			if(command_flag == 1)
+    			{
 
     			for(int b = 0; b < items.size(); b++)
 				{
 					if(tempObject == items[b]->getName())
 					{
+
 						//find matching item
 				
 						if((items[b]->getStatus()) == tempStatus)
@@ -654,31 +682,82 @@ int main()
 						}
 						else
 						{
+
+
 							//FIND ITEM LOCATION
 							//check containers for item
+							if(tempOwner == "inventory")
+							{
+							
+								if(tempHas == "yes")
+								{		
+									for(int c = 0; c < inventory.size(); c++)
+									{
+										if(inventory[c]->getName() == tempObject)
+										{
+											cout << current_room_trigger[a]->getPrint() << endl;
+											trigger_true  = 1;
+										}
+									}
+								}
+								else if(tempHas == "no")
+								{
+									for(int c = 0; c < inventory.size(); c++)
+									{
+										if(inventory[c]->getName() == tempObject)
+										{
+											has_check = 1;
+										}
+									}
+									if(!has_check)
+									{
+									cout << current_room_trigger[a]->getPrint() << endl;
+									trigger_true  = 1;
+									}
+								}		
+
+						}
+
+							
+							//FIND ITEM LOCATION
+							//check check if container is trigger owner
 							for(int c = 0; c < containers.size() ; c++)
 							{
 								if(containers[c]->getName() == tempOwner)
 								{
+
 									//check if container holds the item in question
 									vector<Item*> tempItems =  containers[c]->getItems();
-									for(int d = 0; d < containers.size() ; d++)
+									if(tempHas == "yes")
+									{
+									for(int d = 0; d < tempItems.size() ; d++)
 									{
 										if(tempItems[d]->getName() == tempObject)
 										{
-											if(tempHas == "yes")
-											{
+											
 											cout << current_room_trigger[a]->getPrint();
 											trigger_true = 1;
 											//perform action
-											}	
-										}
-										else if(tempHas == "no") 
+										}	
+									}
+
+									}
+									else if(tempHas == "no") 
 										{
-											cout << current_room_trigger[a]->getPrint();
-											trigger_true = 1;	
+											for(int d = 0; c < tempItems.size(); d++)
+											{
+												if(tempItems[d]->getName() == tempObject)
+												{
+													has_check = 1;
+												}
+											}
+											if(!has_check)
+											{
+												cout << current_room_trigger[a]->getPrint() << endl;
+												trigger_true  = 1;
+											}
 										}
-									}	
+
 								}
 							}
 							//check rooms for item
@@ -688,24 +767,35 @@ int main()
 								{
 									//check if room holds the item in question
 									vector<Item*> tempItems =  rooms[c]->getItems();
+									if(tempHas == "yes")
+									{
 									for(int d = 0; d < tempItems.size() ; d++)
 									{
 										if(tempItems[d]->getName() == tempObject)
 										{
-											if(tempHas == "yes")
-											{
+											
 											cout << current_room_trigger[a]->getPrint();
 											trigger_true = 1;
 											//perform action
-											}
-											else if(tempHas == "no")
-											{	
-											cout << current_room_trigger[a]->getPrint();
-											trigger_true = 1;
-											//perform action
-											}
+											
 										}
-									}	
+									}
+									}
+									else if(tempHas == "no")
+											{	
+											for(int d = 0; c < tempItems.size(); d++)
+											{
+												if(tempItems[d]->getName() == tempObject)
+												{
+													has_check = 1;
+												}
+											}
+											if(!has_check)
+											{
+												cout << current_room_trigger[a]->getPrint() << endl;
+												trigger_true  = 1;
+											}
+											}	
 								}
 							}
 						}
@@ -713,13 +803,56 @@ int main()
 						/////
 					}
 				}
+
+			}
     			//check if command mastches
 
 
     			//if(type == single) delete trigger
     			//current_room_trigger[a]->getType()
 
-    		}
+    	}//ENDOFTRIGGER
+*/
+    		   if(command == "n" || command== "s" || command == "e" || command == "w")
+		  {
+
+		    int roomExistFlag = 0;
+		    if(!trigger_true)
+		      {
+	    		string temp_border = current_room->getBorderName(command);
+	    		//cout << temp_border << endl;
+	    		for(int g = 0; g< rooms.size(); g++)
+			  	{
+			    if(rooms[g]->getName() == temp_border)
+			      {
+					current_room = rooms[g];
+					roomExistFlag = 1;
+			      }
+			     
+			  	}
+	    		if(roomExistFlag == 0)
+			  	{
+			    cout << "Can't go that way!" << endl;
+			  	}
+			
+		      }
+		  }	   
+		  
+    	else if(command =="i")
+	  {
+	    cout << "Inventory : ";
+	    for(int a = 0; a < inventory.size(); a++)
+	    {
+	    	cout << inventory[a]->getName() << endl;
+	    }
+	    cout << endl;
+	    
+	  }
+
+
+
+
+
 
 
     		//vector<Border*> current_room_border = current_room->getBorders();
@@ -769,6 +902,7 @@ int main()
 
 
     	*/
+    
     	
     }
     

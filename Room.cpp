@@ -52,9 +52,24 @@ type = newType;
 void Room::addBorder(string dir, string borderRoom)
 {
   Border* newBorder = new Border();
+  if(dir == "north"){
+    dir = "n";
+    }
+  if(dir == "south"){
+    dir = "s";}
+  if(dir == "east"){
+    dir = "e";
+  }
+  if(dir == "west")
+    {
+      dir = "w";
+    }
+
+
  newBorder->direction = dir;
  newBorder->name = borderRoom;
  borders.push_back(newBorder);
+ // cout << borders.size() << endl;
 }
 
 void Room::addItem(Item* newItem)
@@ -71,14 +86,15 @@ vector<Item*> Room::getItems()
 
 
 string Room::getBorderName(string dir){
+  string temp = "nonexistant";
   for(int i = 0; i < borders.size(); i++)
   {
     if(borders[i]->direction == dir)
       {
-	return borders[i]->name;
+	temp = borders[i]->name;
       }
   } 
-  return "nonexistant";
+  return temp;
 }
 
 
