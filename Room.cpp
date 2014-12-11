@@ -62,17 +62,9 @@ void Room::addItem(Item* newItem)
 items.push_back(newItem);
 }
 
-Item* Room::getItem(string itemName)
+vector<Item*> Room::getItems()
 {
-  int i = 0;
-  for(i = 0; i < items.size(); i++)
-    {
-      if(items[i]->getName().compare(itemName) == 0)
-	{
-	  return items[i];
-	}
-    }
-  return NULL;
+  return items;
 }
 
 

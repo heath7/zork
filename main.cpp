@@ -371,7 +371,7 @@ int main()
 				  //cout << "!!!!!!!!"<< endl;
 				  //cout << tempValue2 << endl;
 				  containers[i]->addItem(items[j]);//////
-				  cout << containers[i]->getItem(tempValue2)->getName() << endl;
+
 				}
 			    }
 			}
@@ -628,6 +628,7 @@ int main()
     		int check_has = 0;
     		int error = 1;
     		int is_valid = 0;
+    		int trigger_true = 0;
 
     		vector<Triggers*> current_room_trigger = current_room->getTriggers();
     		//read user input
@@ -651,7 +652,10 @@ int main()
 							cout << current_room_trigger[a]->getPrint() << endl;
 							//action
 						}
-						else{
+						else
+						{
+							//FIND ITEM LOCATION
+							//check containers for item
 							for(int c = 0; c < containers.size() ; c++)
 							{
 								if(containers[c]->getName() == tempOwner)
@@ -660,23 +664,54 @@ int main()
 									vector<Item*> tempItems =  containers[c]->getItems();
 									for(int d = 0; d < containers.size() ; d++)
 									{
-										if(tempItems[d]->getName() == tempOwner)
+										if(tempItems[d]->getName() == tempObject)
+										{
+											if(tempHas == "yes")
+											{
+											cout << current_room_trigger[a]->getPrint();
+											trigger_true = 1;
+											//perform action
+											}	
+										}
+										else if(tempHas == "no") 
 										{
 											cout << current_room_trigger[a]->getPrint();
-											//perform action
+											trigger_true = 1;	
 										}
-
-									}
-
+									}	
 								}
-
 							}
-
+							//check rooms for item
+							for(int c = 0; c < rooms.size() ; c++)
+							{
+								if(rooms[c]->getName() == tempOwner)
+								{
+									//check if room holds the item in question
+									vector<Item*> tempItems =  rooms[c]->getItems();
+									for(int d = 0; d < tempItems.size() ; d++)
+									{
+										if(tempItems[d]->getName() == tempObject)
+										{
+											if(tempHas == "yes")
+											{
+											cout << current_room_trigger[a]->getPrint();
+											trigger_true = 1;
+											//perform action
+											}
+											else if(tempHas == "no")
+											{	
+											cout << current_room_trigger[a]->getPrint();
+											trigger_true = 1;
+											//perform action
+											}
+										}
+									}	
+								}
+							}
 						}
 
-
+						/////
 					}
-
 				}
     			//check if command mastches
 

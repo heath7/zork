@@ -49,7 +49,7 @@ public:
   string getBorderName(string);
   vector <Border*> getBorders();
 
-  Item* getItem(string itemName);
+  vector<Item*> getItems();
   void addItem(Item* newItem);
 
   Container* getContainer(string containerName);
