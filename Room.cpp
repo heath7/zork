@@ -82,8 +82,18 @@ vector<Item*> Room::getItems()
   return items;
 }
 
-
-
+void Room::deleteItem(string passed)
+{
+  for(int i = 0; i < items.size(); i++)
+    {
+      if(items[i]->getName() == passed)
+	{
+	  items.erase(items.begin() + i);
+	  break;
+	}
+    }
+ 
+}
 
 string Room::getBorderName(string dir){
   string temp = "nonexistant";

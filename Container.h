@@ -43,6 +43,8 @@ class Container
   void addAction(string newAction);
   vector<string> getActions();
 
+  void deleteItem(string);
+
  private:
   //const unsigned int MAX_ITEMS;
   string name;

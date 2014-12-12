@@ -622,7 +622,7 @@ int main()
     {
     	string stay = "";
     
-    	cout << current_room->getDescription() << endl;
+  
     	getline(cin,command);
 		
 
@@ -662,7 +662,7 @@ int main()
     				command_flag = 1;
     				
     			}
-    			cout << command_flag << endl;
+    			//cout << command_flag << endl;
     			if(command_flag == 1)
     			{
 
@@ -670,7 +670,7 @@ int main()
 				{
 					if(tempObject == items[b]->getName())
 					{
-
+						//cout << tempObject << endl;;
 						//find matching item
 				
 						if((items[b]->getStatus()) == tempStatus)
@@ -825,6 +825,7 @@ int main()
 			      {
 					current_room = rooms[g];
 					roomExistFlag = 1;
+					cout << current_room->getDescription() << endl;
 			      }
 			     
 			  	}
@@ -841,7 +842,7 @@ int main()
 	    cout << "Inventory : ";
 	    for(int a = 0; a < inventory.size(); a++)
 	    {
-	    	cout << inventory[a]->getName() << endl;
+	    	cout << inventory[a]->getName() << " ";
 	    }
 	    cout << endl;
 	    
@@ -875,25 +876,24 @@ int main()
 	  		for(i = 0 ; i < current_room->getItems().size(); i++ )
 	  		{
 
-	  			
 	  			if(current_room->getItems()[i]->getName() == item)
 	  			{
 
 	  				inventory.push_back(current_room->getItems()[i]);
 	  				cout << "Item " << item << " added to inventory." << endl;
+	  				current_room->deleteItem(item);
+   					 
 	  				found = 1;
 	  				break;
 	  			}
 	  			
 	  		}
 
-
 	  		if(found == 0)
 	  		{
 	  			cout << item << " not found in room." << endl;
 	  		}
 	  	}
-
 
 	  	if(actionCommand == "open")
 	  	{
@@ -907,8 +907,8 @@ int main()
 	  			{
 	  				if(current_room->getContainers()[i]->getItems().size() == 0)
 	  				{
-	  				cout << "container is empty" << endl;
-	  				break;
+	  					cout << "container is empty" << endl;
+	  					break;
 	  				}
 
 
@@ -939,35 +939,101 @@ int main()
 	  			}
 
 	  		}
-	  		if(found == 1)
+	  		if(found == 0)
 	  		{
 	  			cout << item << "not in inventory" << endl;
 	  		}
 
 	  	}
-
-	  	if(actionCommand == "turn on")
+//TURN ON DOES NOT WORK
+	  	if(actionCommand == "turn")
 	  	{
 	  		int found = 0;
 	  		int i = 0;
 	  		item = command.erase(0,pos + delim.length());
+	  		pos = command.find(delim);
+	  		item = command.erase(0, pos + delim.length());
 	  		for(i = 0; i < inventory.size() ; i++)
 	  		{
 	  			if(inventory[i]->getName() == item)
 	  			{
 	  				cout << inventory[i]->getPrint() << endl;
 	  				found = 1;
-	  				//action
+	  				//ACTION
+	  				vector <string> commands = inventory[i]->getActions();
+	  				for(int b = 0; b < commands.size(); b++)
+	  				{
+	  					command = commands[b];
+	  					cout << command << endl;
+
+	  					delim = " ";
+	  					pos = command.find(delim);
+	  					string actionCommand = command.substr(0,pos);
+	  					//cout << actionCommand << endl;
+						if(actionCommand == "Update")
+						{
+
+							command.erase(0,pos +delim.length());
+							pos = command.find(delim);
+	  						item = command.substr(0, pos);
+							//cout << item << endl;
+		  					for(int a = 0; a < items.size(); a++)
+	  						{
+	  							if(items[a]->getName() == item)
+	  							{
+	  								string stat = command.erase(0,pos + delim.length());
+	  								pos = command.find(delim);
+	  								stat = command.erase(0, pos + delim.length());
+	  								items[a]->setStatus(stat);
+	  								//cout << stat << endl;
+	  							}
+	  						}
+						}
+					//end update
+					//add
+						if(actionCommand == "Add")
+						{
+							command.erase(0,pos +delim.length());
+							pos = command.find(delim);
+	  						item = command.substr(0, pos);
+	  						//cout << item << endl;
+	  						for(int a = 0; a < items.size(); a++)
+	  						{
+	  							if(items[a]->getName() == item)
+	  							{
+	  								string roo = command.erase(0,pos + delim.length());
+	  								pos = command.find(delim);
+	  								roo = command.erase(0, pos + delim.length());
+	  								for(int c = 0; c < rooms.size(); c++)
+	  								{
+	  									if(rooms[c]->getName() == roo)
+	  									{
+	  										rooms[c]->addItem(items[a]);
+	  										cout << items[a]->getName() << " added to " << rooms[c]->getName() << endl;
+	  									}
+
+	  								}
+	  								//items[a]->setStatus(stat);
+	  								//cout << stat << endl;
+	  							}
+	  						}
+
+						}
+
+
+					}
+					
+
+
 	  			}
 
 	  		}
-	  		if(found == 1)
+	  		if(found == 0)
 	  		{
 	  			cout << item << "not in inventory" << endl;
 	  		}
 
 	  	}
-
 
 
 

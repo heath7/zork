@@ -61,6 +61,8 @@ public:
   vector <Triggers*> getTriggers();
   void addTriggers(Triggers*);
 
+  void deleteItem(string);
+
 
   // void removeItem(string itemName);
   // Room* const getNextRoom(const string &dirName);

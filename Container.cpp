@@ -10,6 +10,16 @@ Container::Container()
  
 }
 
+void Container::deleteItem(string passed)
+{
+  for(int i = 0; i < items.size() ; i++)
+    {
+      if(items[i]->getName() == passed)
+	{
+	  items.erase(items.begin() + i);
+	}
+    }
+}
 string Container::getName()
   {
     return name;
