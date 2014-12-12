@@ -606,16 +606,14 @@ int main()
   if(current_room != NULL)
     {
       cout << current_room->getDescription() << endl;
-      cout << current_room->getBorderName("n") << endl;
-      cout << current_room->getItems()[0]->getName() << endl;
     }
 
 
     vector<Item*> inventory;
-    vector<Room*>::iterator room_iter = rooms.begin();
-    vector<Item*>::iterator item_iter = items.begin();
-    vector<Container*>::iterator container_iter = containers.begin();
-    vector<Creature*>::iterator creature_iter = creatures.begin();
+   // vector<Room*>::iterator room_iter = rooms.begin();
+    //vector<Item*>::iterator item_iter = items.begin();
+   // vector<Container*>::iterator container_iter = containers.begin();
+    //vector<Creature*>::iterator creature_iter = creatures.begin();
 
     string command;
 	int game_end = 0;
@@ -625,7 +623,7 @@ int main()
     	string stay = "";
     
     	cout << current_room->getDescription() << endl;
-    		getline(cin,command);
+    	getline(cin,command);
 		
 
     		int valid;
@@ -647,7 +645,7 @@ int main()
 
 
 
-/*
+
     		for(a = 0 ; a < current_room_trigger.size(); a++)
     		{
     			string tempObject = current_room_trigger[a]->getObject();
@@ -812,7 +810,7 @@ int main()
     			//current_room_trigger[a]->getType()
 
     	}//ENDOFTRIGGER
-*/
+
     		   if(command == "n" || command== "s" || command == "e" || command == "w")
 		  {
 
@@ -848,6 +846,136 @@ int main()
 	    cout << endl;
 	    
 	  }
+	  else if( command == "open exit")
+	  {
+	  	if(current_room->getType() == "exit")
+	  	{
+	  		cout << "Game Over" << endl;
+	  		game_end = 1;
+	  	}
+	  }
+
+
+
+	  else
+	  {
+	  	string delim = " ";
+	  	size_t pos = command.find(delim);
+	  	string actionCommand = command.substr(0,pos);
+	  	string item;
+	  	string container;
+	  	string creature;
+	  	
+	  	if(actionCommand == "take")
+	  	{
+	  		int found = 0;
+	  		int i = 0;
+	  		vector<Item*>::iterator it;
+	  		item = command.erase(0,pos + delim.length());
+	  		for(i = 0 ; i < current_room->getItems().size(); i++ )
+	  		{
+
+	  			
+	  			if(current_room->getItems()[i]->getName() == item)
+	  			{
+
+	  				inventory.push_back(current_room->getItems()[i]);
+	  				cout << "Item " << item << " added to inventory." << endl;
+	  				found = 1;
+	  				break;
+	  			}
+	  			
+	  		}
+
+
+	  		if(found == 0)
+	  		{
+	  			cout << item << " not found in room." << endl;
+	  		}
+	  	}
+
+
+	  	if(actionCommand == "open")
+	  	{
+	  		int found = 0;
+	  		int i = 0;
+	  		container = command.erase(0,pos + delim.length());
+	  		
+	  		for(i = 0;i < current_room->getContainers().size(); i++)
+	  		{
+	  			if(current_room->getContainers()[i]->getName() == container)
+	  			{
+	  				if(current_room->getContainers()[i]->getItems().size() == 0)
+	  				{
+	  				cout << "container is empty" << endl;
+	  				break;
+	  				}
+
+
+	  				cout << container << " contains: ";
+	  				for(int b = 0; b < current_room->getContainers()[i]->getItems().size() ; b++)
+	  				{
+	  					cout << current_room->getContainers()[i]->getItems()[b]->getName() << " " ;
+	  					current_room->addItem(current_room->getContainers()[i]->getItems()[b]);
+	  				}
+	  				cout << endl;
+
+	  			}
+
+	  		}
+
+	  	}
+	  	if(actionCommand == "read")
+	  	{
+	  		int found = 0;
+	  		int i = 0;
+	  		item = command.erase(0,pos + delim.length());
+	  		for(i = 0; i < inventory.size() ; i++)
+	  		{
+	  			if(inventory[i]->getName() == item)
+	  			{
+	  				cout << inventory[i]->getWriting() << endl;
+	  				found = 1;
+	  			}
+
+	  		}
+	  		if(found == 1)
+	  		{
+	  			cout << item << "not in inventory" << endl;
+	  		}
+
+	  	}
+
+	  	if(actionCommand == "turn on")
+	  	{
+	  		int found = 0;
+	  		int i = 0;
+	  		item = command.erase(0,pos + delim.length());
+	  		for(i = 0; i < inventory.size() ; i++)
+	  		{
+	  			if(inventory[i]->getName() == item)
+	  			{
+	  				cout << inventory[i]->getPrint() << endl;
+	  				found = 1;
+	  				//action
+	  			}
+
+	  		}
+	  		if(found == 1)
+	  		{
+	  			cout << item << "not in inventory" << endl;
+	  		}
+
+	  	}
+
+
+
+
+
+	  }
+
+
+
 
 
 

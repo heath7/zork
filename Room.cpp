@@ -98,32 +98,17 @@ string Room::getBorderName(string dir){
 }
 
 
-Container* Room::getContainer(string target){
-  int i = 0;
-  for(i = 0; i < containers.size(); i++ )
-    {
-      if(containers[i]->getName() == target)
-	{
-	  return containers[i];
-	}
-    }
-  return NULL;
+vector<Container*> Room::getContainers(){
+  return containers; 
+
 }
 
 void Room::addContainer(Container* newContainer){
   (this->containers).push_back(newContainer);
 }
 
-Creature * Room::getCreature(string target){
-  int i = 0;
-  for(i = 0; i < creatures.size(); i++ )
-    {
-      if(creatures[i]->getName() == target)
-	{
-	  return creatures[i];
-	}
-    }
-  return NULL;
+vector<Creature *> Room::getCreatures(){
+  return creatures;
 }
 
 void Room::addCreature(Creature* newCreature){

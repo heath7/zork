@@ -52,10 +52,10 @@ public:
   vector<Item*> getItems();
   void addItem(Item* newItem);
 
-  Container* getContainer(string containerName);
+  vector<Container*> getContainers();
   void addContainer(Container*);
 
-  Creature*  getCreature(string creatureName);
+  vector<Creature*> getCreatures();
   void addCreature(Creature*);
 
   vector <Triggers*> getTriggers();
