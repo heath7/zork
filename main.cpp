@@ -714,7 +714,7 @@ int main()
 									}
 								}		
 
-						}
+							}
 
 							
 							//FIND ITEM LOCATION
@@ -802,14 +802,14 @@ int main()
 					}
 				}
 
-			}
+				}
     			//check if command mastches
 
 
     			//if(type == single) delete trigger
     			//current_room_trigger[a]->getType()
 
-    	}//ENDOFTRIGGER
+	    	}//ENDOFTRIGGER
 
     		   if(command == "n" || command== "s" || command == "e" || command == "w")
 		  {
@@ -842,7 +842,7 @@ int main()
 	    cout << "Inventory : ";
 	    for(int a = 0; a < inventory.size(); a++)
 	    {
-	    	cout << inventory[a]->getName() << " ";
+	    	cout << inventory[a]->getName() << ", ";
 	    }
 	    cout << endl;
 	    
@@ -895,7 +895,7 @@ int main()
 	  		}
 	  	}
 
-	  	if(actionCommand == "open")
+	  	else if(actionCommand == "open")
 	  	{
 	  		int found = 0;
 	  		int i = 0;
@@ -925,7 +925,8 @@ int main()
 	  		}
 
 	  	}
-	  	if(actionCommand == "read")
+
+	  	else if(actionCommand == "read")
 	  	{
 	  		int found = 0;
 	  		int i = 0;
@@ -945,8 +946,35 @@ int main()
 	  		}
 
 	  	}
-//TURN ON DOES NOT WORK
-	  	if(actionCommand == "turn")
+
+		///DROP
+		else if(actionCommand == "drop")
+		  {
+		    int found = 0;
+		    int i = 0;
+		    item = command.erase(0,pos + delim.length());
+		    cout << item << endl;
+		    for(i = 0 ; i < inventory.size(); i++ )
+		      {
+			if(inventory[i]->getName() == item)
+			  {
+			    current_room->addItem(inventory[i]);
+			    cout << "Item " << item << " dropped to ground." << endl;
+			    inventory.erase(inventory.begin() + i);
+			    found = 1;
+			    break;
+			  }
+	  		
+		      }
+		    if(found == 0)
+		      {
+			cout << item << " not found in inventory." << endl;
+		      }
+		  }
+
+
+//TURN ON 
+	  	else if(actionCommand == "turn")
 	  	{
 	  		int found = 0;
 	  		int i = 0;
@@ -964,7 +992,7 @@ int main()
 	  				for(int b = 0; b < commands.size(); b++)
 	  				{
 	  					command = commands[b];
-	  					cout << command << endl;
+						//	cout << command << endl;
 
 	  					delim = " ";
 	  					pos = command.find(delim);
@@ -1033,70 +1061,72 @@ int main()
 	  			cout << item << "not in inventory" << endl;
 	  		}
 
+	  	}///////////
+
+	  	else if(actionCommand == "attack")
+	  	{
+	  		int i = 0;
+	  		int j = 0;
+	  		int k = 0;
+	  		int l = 0;
+
+	  		pos = command.find(delim);
+			command.erase(0, pos + delim.length());
+			
+			pos = command.find(delim);
+			creature = command.substr(0,pos);
+		
+			command.erase(0, pos + delim.length());
+			pos = command.find(delim);
+			if(command.substr(0, pos) == "with")
+			{
+				command.erase(0, pos + delim.length());
+				item = command;
+
+				for(i = 0; i < inventory.size() ; i++)
+				{
+					if(inventory[i]->getName() == item)
+					{
+						for(j = 0; j < current_room->getCreatures().size() ; j++)
+						{
+							if(current_room->getCreatures()[j]->getName() == creature)
+							{
+									for(k = 0; k < creatures.size() ; k++)
+									{
+										if(creatures[k]->getName() == creature)
+										{
+											
+												if(current_room->getCreatures()[k]->getVulnerability() == item)
+												{
+													//valid = 1;
+													
+													cout << "You assault the " << current_room->getCreatures()[k]->getName() << " with the "  << item << endl;
+													//current_room->addItem()
+												}
+
+											
+											
+										}
+
+									}						
+
+							}
+						}
+
+					}
+				}
+			}
 	  	}
-
-
-
-
+	  
+	  	else
+	  	{
+	  		cout << "error" << endl;
+	  	}
 	  }
+		//END ................!!!!!!!!
 
 
-
-
-
-
-
-
-
-
-    		//vector<Border*> current_room_border = current_room->getBorders();
-    		
-    		//vector<Creature*> current_room_creature = current_room->getCreatures();
-    		//vector<Container*> current_room_container = current_room->getContainers();
-    		//vector<Item*> current_room_item = current_room->getItems();
-/*
-    		vector<Container>::iterator current_room_contain_trigger_iterator = current_room_container.begin();
-    		for(current_room_container_trigger_iterator = current_room_container.begin(); current_room_container_trigger_iterator != current_room_container.end(); current_room_container_trigger_iterator++) 
-    		{
-    			vector<Triggers> current_room_trigger = current_room_container_trigger_iterator->getTriggers();
-    			vector<Triggers>::iterator container_trigger_iterator = current_room_trigger.begin();
-
-    			for(container_trigger_iterator = current_room_trigger_iterator.begin(); container_trigger_iterator != current_room_trigger_iterator.end(); container_trigger_iterator++) 
-    			{
-    				Condition container_condition = container_trigger_iterator->getCondition();
-    				string has = container_condition.has();
-    				vector<string> container_trigger_action = container_trigger_iterator->getActions();
-    				vector<string> container_item = current_room_container_trigger_iterator->getItem();
-    				vector<string>::iterator container_item_iterator = container_item.begin();
-
-    				if(has == "yes") 
-    				{
-    					for(container_item_iterator = container_item.begin(); container_item_iterator != container_item.end(); container_item_iterator ++) {
-    						if(*container_item_iterator == container_condition.object) 
-    						{
-    							cout << container_trigger_iterator->getPrint() <<endl;
-    							vector<string> action_iterator = container_trigger_action->begin();
-    						}
-    					}
-    				}
-
-
-    			}
-    			
-    		}
-
-    		getline(cin,input_command);
-
-    		if(command == "n" || command == "s" || command == "e" || command == "w") 
-    		{
-
-    			vector<Triggers>::iterator trigger_iterator = current_room_trigger.begin();
-    			for(trigger_iterator = current_room_trigger.begin(); trigger != )
-    		}
-
-
-    	*/
-    
+		   /////////
     	
     }
     
